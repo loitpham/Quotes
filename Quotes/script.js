@@ -1,3 +1,9 @@
+const quoteContainer = document.getElementById('quote-container');
+const quoteText = document.getElementById('quote');
+const authorText = document.getElementById('author');
+const twitterBtn = document.getElementById('twitter');
+const newQuoteBtn = document.getElementById('new-quote');
+
 // Get quote from API
 async function getQuote() {
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -5,11 +11,29 @@ async function getQuote() {
     try {
         const response = await fetch(proxyUrl + apiUrl);
         const data = await response.json();
-        console.log(data)
+
+        // Reduce the font size for long quote
+        if (data.quoteText.length > 120) {
+            quoteText.classList.add('long-quote')
+        } else {
+            quoteText.classList.remove('long-quote');
+        }
+        quoteText.innerText = data.quoteText;
+
+        // If Author is blank, add 'Unknown'
+        if (data.quoteAuthor === '') {
+            authorText.innerText = 'Unknown';
+        } else {
+            authorText.innerText = data.quoteAuthor;
+        }
+
     } catch (error) {
         await getQuote();
-        console.log(`Error: No quote, ${error}`)
     }
+}
+
+const newQuoteBtnOnClick = () => {
+    getQuote();
 }
 
 // On Load
