@@ -32,9 +32,17 @@ async function getQuote() {
     }
 }
 
-const newQuoteBtnOnClick = () => {
-    getQuote();
+// Tweet Quote
+function tweetQuote() {
+    const quote = quoteText.innerText;
+    const author = authorText.innerText;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${quote} - ${author}`;
+    window.open(twitterUrl, '_blank'); // open twitter link in a new tab
 }
+
+// Event Listeners
+newQuoteBtn.addEventListener('click', getQuote);
+twitterBtn.addEventListener('click', tweetQuote);
 
 // On Load
 getQuote()
